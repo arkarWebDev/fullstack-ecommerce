@@ -97,11 +97,11 @@ interface CartDrawerProps {
 function CartDrawer({ isCartOpen, toggleCart }: CartDrawerProps) {
   return (
     <div
-      className={`bg-white fixed top-0 right-0 w-1/4 h-full transform transition-transform duration-300 z-50 p-4 ${
+      className={`bg-white fixed top-0 right-0 w-1/4 transform transition-transform duration-300 z-50 p-4 h-screen overflow-y-scroll border-l-2 border-l-gray-200 ${
         isCartOpen ? "translate-x-0" : "translate-x-full"
       }`}
     >
-      <div className="flex justify-end w-full">
+      <div className="flex justify-end w-full cursor-pointer">
         <X onClick={toggleCart} />
       </div>
       <h2 className="text-2xl font-bold my-4">YOUR CART</h2>
@@ -117,9 +117,10 @@ function CartDrawer({ isCartOpen, toggleCart }: CartDrawerProps) {
           />
         ))}
       </div>
+
       <button
         className="bg-black w-full
-       py-4 text-white rounded-md fixed bottom-1 left-0 mb-2"
+       py-4 text-white rounded-md"
       >
         Go to Checkout
       </button>
