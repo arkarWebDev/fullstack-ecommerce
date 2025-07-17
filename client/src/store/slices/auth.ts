@@ -4,7 +4,8 @@ interface AuthState {
   userInfo: {
     _id: string;
     email: string;
-    username: string;
+    name: string;
+    role: "customer" | "admin";
   } | null;
 }
 
