@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import RatingCoverter from "../common/RatingCoverter";
 import { Minus, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const product = {
   id: 1,
