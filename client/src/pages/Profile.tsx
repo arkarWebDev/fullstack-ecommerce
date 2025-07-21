@@ -5,11 +5,52 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { RootState } from "@/store";
-import { useSelector } from "react-redux";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  useCurrentUserQuery,
+  useUploadAvatarMutation,
+} from "@/store/slices/userApi";
+import { Input } from "@/components/ui/input";
+import { useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 function Profile() {
-  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+  const { data: user, refetch } = useCurrentUserQuery();
+  const [avatar, setAvatar] = useState<string | null>(null);
+  const [uploadAvatarMutation, { isLoading }] = useUploadAvatarMutation();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const imageOnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setAvatar(reader.result as string);
+      }
+    };
+
+    reader.readAsDataURL(e.target.files![0]);
+  };
+
+  const avatarUploadHandler = async () => {
+    if (!avatar) {
+      toast.warning("Please select your avatar first.");
+      return;
+    }
+    try {
+      await uploadAvatarMutation({ image_url: avatar });
+      setAvatar(null);
+      if (inputRef.current) {
+        inputRef.current.value = "";
+      }
+      refetch();
+      toast.success("Avatar Uploaded.");
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
   return (
     <section className="space-y-4">
       <Card>
@@ -19,81 +60,27 @@ function Profile() {
             You can upload own avator and edit your infomation.
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <p>name - {userInfo?.name}</p>
-          <p>email - {userInfo?.email}</p>
-          <p>role - {userInfo?.role}</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <h1 className="text-3xl font-bold mb-4">🎓 Task</h1>
-          <p className="mb-4 text-lg">
-            To receive your <strong>course certificate</strong>, you must
-            implement the following features by yourself using the concepts
-            you've already learned.
-          </p>
-        </CardHeader>
-        <CardContent>
-          <h2 className="text-2xl font-semibold mt-6 mb-2">
-            ✅ Required Features
-          </h2>
-
-          <ul className="list-disc pl-6 space-y-4">
-            <li>
-              <strong>Email Update:</strong> Students can update their email
-              with validation and uniqueness checks.
-              <br />
-              <span className="text-sm text-gray-600">
-                Use <code>shadcn/ui</code> form components.
-              </span>
-            </li>
-
-            <li>
-              <strong>Password Update:</strong> Securely change password with
-              old password verification. New password must be hashed.
-              <br />
-              <span className="text-sm text-gray-600">
-                Use <code>shadcn/ui</code> form and input with validation.
-              </span>
-            </li>
-
-            <li>
-              <strong>Forgot Password:</strong> Token-based reset via email.
-              Token should expire after 10–15 minutes.
-              <br />
-              <span className="text-sm text-gray-600">
-                Include a reset form built with <code>shadcn/ui</code>.
-              </span>
-            </li>
-
-            <li>
-              <strong>Avatar Upload:</strong> Upload and display profile photo
-              (jpg/png/webp). Store locally or on Cloudinary.
-              <br />
-              <span className="text-sm text-gray-600">
-                Show avatar inside a <code>shadcn/ui</code> card component.
-              </span>
-            </li>
-          </ul>
-
-          <h2 className="text-2xl font-semibold mt-6 mb-2">
-            💡 UI Requirements
-          </h2>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>
-              Must use <code>shadcn/ui</code> form and card components.
-            </li>
-            <li>Use Tailwind CSS for clean, responsive design.</li>
-            <li>Add user feedback (e.g., toast, error messages).</li>
-          </ul>
-
-          <h2 className="text-2xl font-semibold mt-6 mb-2">📩 Submission</h2>
-          <p className="mb-6">
-            Submit your GitHub link (with README), and optionally a live demo.
-            <br />
-            <strong>Submission is required to receive your certificate.</strong>
-          </p>
+        <CardContent className="flex items-center justify-between">
+          <div>
+            <Avatar className="w-12 h-12">
+              <AvatarImage src={avatar ?? user?.avatar?.[0].url ?? ""} />
+              {!user?.avatar?.[0]?.url && (
+                <AvatarFallback className="text-2xl">
+                  {user?.name.slice(0, 1)}
+                </AvatarFallback>
+              )}
+            </Avatar>
+            <Input
+              type="file"
+              accept="images/*"
+              onChange={imageOnChangeHandler}
+              className="mt-2"
+              ref={inputRef}
+            />
+          </div>
+          <Button onClick={avatarUploadHandler} disabled={isLoading || !avatar}>
+            Upload
+          </Button>
         </CardContent>
       </Card>
     </section>

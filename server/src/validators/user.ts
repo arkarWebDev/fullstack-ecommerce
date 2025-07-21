@@ -14,3 +14,7 @@ export const loginValidator = [
     .isLength({ min: 6 })
     .withMessage("Password must be at least 6 characters"),
 ];
+
+export const uploadImageValidator = [
+  body("image_url").notEmpty().withMessage("Image is required"),
+];

@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { User } from "../models/user";
 import asyncHandler from "../utils/asyncHandler";
 import generateToken from "../utils/generateToken";
+import { AuthRequest } from "../middlewares/authMiddlewar";
+import { deleteImage, uploadSingleImage } from "../utils/cloudinary";
 
 // @route POST | api/register
 // @desc Register new user
@@ -66,3 +68,43 @@ export const logout = asyncHandler(async (req: Request, res: Response) => {
 
   res.status(200).json({ message: "logout!!" });
 });
+
+// @route POST | api/upload
+// desc update or upload user avatar
+// @access Private
+export const uploadAvatar = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
+    const { user } = req;
+    const { image_url } = req.body;
+
+    const userDoc = await User.findById(user?._id);
+
+    if (userDoc?.avatar?.url) {
+      await deleteImage(userDoc.avatar.public_alt);
+    }
+
+    const response = await uploadSingleImage(image_url, "fash.com/avatar");
+
+    await User.findByIdAndUpdate(user?._id, {
+      avatar: {
+        url: response.image_url,
+        public_alt: response.public_alt,
+      },
+    });
+
+    res.status(200).json({ message: "Avatar Uploaded." });
+  }
+);
+
+// @route GET | api/me
+// desc Get login user's infomation
+// @access Private
+export const getUserInfo = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
+    const { user } = req;
+
+    const userDoc = await User.findById(user?._id).select("-password");
+
+    res.status(200).json(userDoc);
+  }
+);
