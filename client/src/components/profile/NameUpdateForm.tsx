@@ -10,12 +10,13 @@ import { Input } from "../ui/input";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type z from "zod";
-import { emailUpdateSchema } from "@/schema/user";
+import { nameUpdateSchema } from "@/schema/user";
 import { Button } from "../ui/button";
 
-import { useEmailUpdateMutation } from "@/store/slices/userApi";
+import { useNameUpdateMutation } from "@/store/slices/userApi";
 import { toast } from "sonner";
 import { useEffect } from "react";
+
 import {
   Card,
   CardContent,
@@ -24,26 +25,26 @@ import {
   CardTitle,
 } from "../ui/card";
 
-interface EmailUpdateFormProps {
-  email: string;
+interface NameUpdateFormProps {
+  name: string;
 }
 
-type formInput = z.infer<typeof emailUpdateSchema>;
+type formInput = z.infer<typeof nameUpdateSchema>;
 
-function EmailUpdateForm({ email }: EmailUpdateFormProps) {
-  const form = useForm<z.infer<typeof emailUpdateSchema>>({
-    resolver: zodResolver(emailUpdateSchema),
+function NameUpdateForm({ name }: NameUpdateFormProps) {
+  const form = useForm<z.infer<typeof nameUpdateSchema>>({
+    resolver: zodResolver(nameUpdateSchema),
     defaultValues: {
-      email,
+      name,
     },
   });
-  const watchedEmail = form.watch("email");
+  const watchedEmail = form.watch("name");
 
-  const [emailUpdateMutation, { isLoading }] = useEmailUpdateMutation();
+  const [nameUpdateMutation, { isLoading }] = useNameUpdateMutation();
 
   const onSubmit: SubmitHandler<formInput> = async (data) => {
     try {
-      const res = await emailUpdateMutation(data).unwrap();
+      const res = await nameUpdateMutation(data).unwrap();
       toast.success(res.message);
     } catch (err: any) {
       toast.error(err?.data?.message);
@@ -52,15 +53,16 @@ function EmailUpdateForm({ email }: EmailUpdateFormProps) {
   };
 
   useEffect(() => {
-    form.reset({ email });
-  }, [email]);
+    form.reset({ name });
+  }, [name]);
 
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Email address</CardTitle>
+        <CardTitle>Profile name</CardTitle>
         <CardDescription>
-          You can view or edit your email address here.
+          {" "}
+          You can view or edit your profile name here.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -68,7 +70,7 @@ function EmailUpdateForm({ email }: EmailUpdateFormProps) {
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
-              name="email"
+              name="name"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Email</FormLabel>
@@ -80,7 +82,7 @@ function EmailUpdateForm({ email }: EmailUpdateFormProps) {
               )}
             />
             <Button
-              disabled={email === watchedEmail || isLoading}
+              disabled={name === watchedEmail || isLoading}
               className="mt-4"
             >
               Update
@@ -92,4 +94,4 @@ function EmailUpdateForm({ email }: EmailUpdateFormProps) {
   );
 }
 
-export default EmailUpdateForm;
+export default NameUpdateForm;

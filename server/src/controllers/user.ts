@@ -129,3 +129,19 @@ export const updateEmailAddress = asyncHandler(
     res.status(200).json({ message: "User email updated." });
   }
 );
+
+// @route POST | api/update-name
+// desc Update user's name
+// @access Private
+export const updateName = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
+    const { user } = req;
+    const { name } = req.body;
+
+    await User.findByIdAndUpdate(user?._id, {
+      name,
+    });
+
+    res.status(200).json({ message: "Profile name updated." });
+  }
+);

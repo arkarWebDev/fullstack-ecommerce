@@ -22,3 +22,7 @@ export const uploadImageValidator = [
 export const emailUpdateValidator = [
   body("email").isEmail().withMessage("Valid email is required"),
 ];
+
+export const nameUpdateValidator = [
+  body("name").notEmpty().withMessage("Name is required"),
+];

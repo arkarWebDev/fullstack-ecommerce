@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import EmailUpdateForm from "@/components/profile/EmailUpdateForm";
 import Loader from "@/components/Loader";
+import NameUpdateForm from "@/components/profile/NameUpdateForm";
 
 function Profile() {
   const { data: user, refetch, isLoading } = useCurrentUserQuery();
@@ -93,17 +94,10 @@ function Profile() {
               </Button>
             </CardContent>
           </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Email address</CardTitle>
-              <CardDescription>
-                You can view or edit your email address here.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <EmailUpdateForm email={user?.email!} />
-            </CardContent>
-          </Card>
+          <div className="flex gap-4">
+            <EmailUpdateForm email={user?.email!} />
+            <NameUpdateForm name={user?.name!} />
+          </div>
         </section>
       )}
     </>

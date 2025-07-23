@@ -5,11 +5,13 @@ import {
   logout,
   registerUser,
   updateEmailAddress,
+  updateName,
   uploadAvatar,
 } from "../controllers/user";
 import {
   emailUpdateValidator,
   loginValidator,
+  nameUpdateValidator,
   registerValidator,
   uploadImageValidator,
 } from "../validators/user";
@@ -36,5 +38,12 @@ router.post(
   validateRequest,
   protect,
   updateEmailAddress
+);
+router.post(
+  "/update-name",
+  nameUpdateValidator,
+  validateRequest,
+  protect,
+  updateName
 );
 export default router;
