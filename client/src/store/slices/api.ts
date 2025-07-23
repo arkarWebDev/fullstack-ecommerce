@@ -11,5 +11,6 @@ export const apiSlice = createApi({
     baseUrl,
     credentials: "include",
   }),
+  tagTypes: ["User"],
   endpoints: () => ({}),
 });

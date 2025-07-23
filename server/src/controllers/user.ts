@@ -47,9 +47,6 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
     generateToken(res, existingUser._id);
     res.status(200).json({
       _id: existingUser._id,
-      name: existingUser.name,
-      email: existingUser.email,
-      role: existingUser.role,
     });
   } else {
     res.status(401);
@@ -106,5 +103,29 @@ export const getUserInfo = asyncHandler(
     const userDoc = await User.findById(user?._id).select("-password");
 
     res.status(200).json(userDoc);
+  }
+);
+
+// @route POST | api/update-email
+// desc Update user's email
+// @access Private
+export const updateEmailAddress = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
+    const { user } = req;
+    const { email } = req.body;
+
+    const existingEmailUser = await User.findOne({
+      email,
+    });
+
+    if (existingEmailUser) {
+      throw new Error("Email is already owned by other users.");
+    }
+
+    await User.findByIdAndUpdate(user?._id, {
+      email,
+    });
+
+    res.status(200).json({ message: "User email updated." });
   }
 );

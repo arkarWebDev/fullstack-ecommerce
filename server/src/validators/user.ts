@@ -18,3 +18,7 @@ export const loginValidator = [
 export const uploadImageValidator = [
   body("image_url").notEmpty().withMessage("Image is required"),
 ];
+
+export const emailUpdateValidator = [
+  body("email").isEmail().withMessage("Valid email is required"),
+];

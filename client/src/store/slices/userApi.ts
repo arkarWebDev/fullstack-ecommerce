@@ -1,30 +1,34 @@
 import type { User } from "@/types/user";
 import { apiSlice } from "./api";
 
-interface loginInput {
+interface LoginInput {
   email: string;
   password: string;
 }
 
-interface registerInput extends loginInput {
+interface RegisterInput extends LoginInput {
   name: string;
 }
 
-interface avatarUploadInput {
+interface AvatarUploadInput {
   image_url: string;
+}
+
+interface EmailUpdateInput {
+  email: string;
 }
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     register: builder.mutation({
-      query: (data: registerInput) => ({
+      query: (data: RegisterInput) => ({
         url: "/register",
         method: "POST",
         body: data,
       }),
     }),
     login: builder.mutation({
-      query: (data: loginInput) => ({
+      query: (data: LoginInput) => ({
         url: "/login",
         method: "POST",
         body: data,
@@ -41,13 +45,23 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: "/me",
         method: "GET",
       }),
+      providesTags: ["User"],
     }),
     uploadAvatar: builder.mutation({
-      query: (data: avatarUploadInput) => ({
+      query: (data: AvatarUploadInput) => ({
         url: "/upload",
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["User"],
+    }),
+    emailUpdate: builder.mutation({
+      query: (data: EmailUpdateInput) => ({
+        url: "/update-email",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["User"],
     }),
   }),
 });
@@ -58,4 +72,5 @@ export const {
   useLogoutMutation,
   useCurrentUserQuery,
   useUploadAvatarMutation,
+  useEmailUpdateMutation,
 } = userApiSlice;
