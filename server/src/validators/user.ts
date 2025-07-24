@@ -35,3 +35,7 @@ export const passwordUpdateValidator = [
     .isLength({ min: 6 })
     .withMessage("New password must be at least 6 characters"),
 ];
+
+export const passwordResetValidator = [
+  body("email").isEmail().withMessage("Valid email is required"),
+];
