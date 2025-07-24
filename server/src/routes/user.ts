@@ -6,12 +6,14 @@ import {
   registerUser,
   updateEmailAddress,
   updateName,
+  updatePassword,
   uploadAvatar,
 } from "../controllers/user";
 import {
   emailUpdateValidator,
   loginValidator,
   nameUpdateValidator,
+  passwordUpdateValidator,
   registerValidator,
   uploadImageValidator,
 } from "../validators/user";
@@ -45,5 +47,12 @@ router.post(
   validateRequest,
   protect,
   updateName
+);
+router.post(
+  "/update-password",
+  passwordUpdateValidator,
+  validateRequest,
+  protect,
+  updatePassword
 );
 export default router;

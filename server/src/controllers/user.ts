@@ -4,6 +4,7 @@ import asyncHandler from "../utils/asyncHandler";
 import generateToken from "../utils/generateToken";
 import { AuthRequest } from "../middlewares/authMiddlewar";
 import { deleteImage, uploadSingleImage } from "../utils/cloudinary";
+import bcrypt from "bcryptjs";
 
 // @route POST | api/register
 // @desc Register new user
@@ -143,5 +144,35 @@ export const updateName = asyncHandler(
     });
 
     res.status(200).json({ message: "Profile name updated." });
+  }
+);
+
+// @route POST | api/update-password
+// desc Update user's password with old password.
+// @access Private
+export const updatePassword = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
+    const { user } = req;
+    const { oldPassword, newPassword } = req.body;
+
+    const existingUser = await User.findById(user?._id).select("+password");
+
+    if (!existingUser) {
+      throw new Error("Something went wrong.");
+    }
+
+    const isPasswordMatch = await bcrypt.compare(
+      oldPassword,
+      existingUser.password
+    );
+
+    if (!isPasswordMatch) {
+      throw new Error("Old password is wrong.");
+    }
+
+    existingUser.password = newPassword;
+    await existingUser.save();
+
+    res.status(200).json({ message: "Password updated." });
   }
 );

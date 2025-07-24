@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import EmailUpdateForm from "@/components/profile/EmailUpdateForm";
 import Loader from "@/components/Loader";
 import NameUpdateForm from "@/components/profile/NameUpdateForm";
+import PasswordUpdateForm from "@/components/profile/PasswordUpdateForm";
 
 function Profile() {
   const { data: user, refetch, isLoading } = useCurrentUserQuery();
@@ -98,6 +99,7 @@ function Profile() {
             <EmailUpdateForm email={user?.email!} />
             <NameUpdateForm name={user?.name!} />
           </div>
+          <PasswordUpdateForm />
         </section>
       )}
     </>
