@@ -4,6 +4,7 @@ import {
   login,
   logout,
   registerUser,
+  resetPassword,
   sendForgotPasswordEmail,
   updateEmailAddress,
   updateName,
@@ -14,6 +15,7 @@ import {
   emailUpdateValidator,
   loginValidator,
   nameUpdateValidator,
+  passswordChangeValidator,
   passwordResetValidator,
   passwordUpdateValidator,
   registerValidator,
@@ -61,7 +63,12 @@ router.post(
   "/forgot-password",
   passwordResetValidator,
   validateRequest,
-  protect,
   sendForgotPasswordEmail
+);
+router.post(
+  "/reset-password/:token",
+  passswordChangeValidator,
+  validateRequest,
+  resetPassword
 );
 export default router;

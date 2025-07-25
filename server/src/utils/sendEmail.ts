@@ -15,6 +15,8 @@ export const sendEmail = async ({ reciver_mail, subject, body }: Options) => {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
+    debug: true,
+    logger: true,
   } as SMTPTransport.Options);
 
   const mail = {

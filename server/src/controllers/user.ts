@@ -7,6 +7,7 @@ import { deleteImage, uploadSingleImage } from "../utils/cloudinary";
 import bcrypt from "bcryptjs";
 import { forgetPasswordEmailTemplate } from "../utils/emailTemplate";
 import { sendEmail } from "../utils/sendEmail";
+import crypto from "crypto";
 
 // @route POST | api/register
 // @desc Register new user
@@ -183,8 +184,7 @@ export const updatePassword = asyncHandler(
 // desc Send email to user's own mail.
 // @access Private
 export const sendForgotPasswordEmail = asyncHandler(
-  async (req: AuthRequest, res: Response) => {
-    const { user } = req;
+  async (req: Request, res: Response) => {
     const { email } = req.body;
 
     const existingUser = await User.findOne({ email });
@@ -201,7 +201,7 @@ export const sendForgotPasswordEmail = asyncHandler(
 
     try {
       await sendEmail({
-        reciver_mail: user?.email!,
+        reciver_mail: existingUser?.email!,
         subject: "Password Reset - FASH.COM",
         body,
       });
@@ -212,5 +212,32 @@ export const sendForgotPasswordEmail = asyncHandler(
     }
 
     res.status(200).json({ message: "Reset Password email send." });
+  }
+);
+
+// @route POST | api/reset-password/:token
+// desc Change user passsword
+// @access Private
+export const resetPassword = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
+    const { token } = req.params;
+    const { newPassword } = req.body;
+
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+    const user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpire: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      throw new Error("Invaild token.Request email again.");
+    }
+
+    user.password = newPassword;
+    user.resetPasswordExpire = undefined;
+    user.resetPasswordToken = undefined;
+    await user.save();
+
+    res.status(200).json({ message: "Password changed." });
   }
 );

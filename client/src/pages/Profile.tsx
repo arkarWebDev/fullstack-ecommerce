@@ -19,6 +19,7 @@ import EmailUpdateForm from "@/components/profile/EmailUpdateForm";
 import Loader from "@/components/Loader";
 import NameUpdateForm from "@/components/profile/NameUpdateForm";
 import PasswordUpdateForm from "@/components/profile/PasswordUpdateForm";
+import ResetPasswordForm from "@/components/profile/ResetPasswordForm";
 
 function Profile() {
   const { data: user, refetch, isLoading } = useCurrentUserQuery();
@@ -72,7 +73,7 @@ function Profile() {
             <CardContent className="flex items-center justify-between">
               <div>
                 <Avatar className="w-12 h-12">
-                  <AvatarImage src={avatar ?? user?.avatar?.[0].url ?? ""} />
+                  <AvatarImage src={avatar ?? user?.avatar?.[0]?.url ?? ""} />
                   {!user?.avatar?.[0]?.url && (
                     <AvatarFallback className="text-2xl">
                       {user?.name.slice(0, 1)}
@@ -100,6 +101,7 @@ function Profile() {
             <NameUpdateForm name={user?.name!} />
           </div>
           <PasswordUpdateForm />
+          <ResetPasswordForm email={user?.email!} />
         </section>
       )}
     </>

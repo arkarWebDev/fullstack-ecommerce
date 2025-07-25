@@ -11,7 +11,9 @@ import { Provider } from "react-redux";
 import { store } from "./store/index.ts";
 import { Toaster } from "sonner";
 import Profile from "./pages/Profile.tsx";
-import IsLogin from "./pages/isLogin.tsx";
+import IsLogin from "./pages/IsLogin.tsx";
+import ResetPassword from "./pages/ResetPassword.tsx";
+import ForgotPassword from "./pages/FogotPassword.tsx";
 
 const router = createBrowserRouter([
   {
@@ -27,9 +29,11 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "register",
+        path: "/register",
         element: <Register />,
       },
+      { path: "/reset-password/:id", element: <ResetPassword /> },
+      { path: "/forgot-password", element: <ForgotPassword /> },
       {
         path: "/products/:id",
         element: <ProductDetails />,
