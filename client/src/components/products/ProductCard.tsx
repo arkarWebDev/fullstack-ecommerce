@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import RatingCoverter from "../../common/RatingCoverter";
 
 interface ProductCardProps {
@@ -5,16 +6,29 @@ interface ProductCardProps {
   price: number;
   image: string;
   ratingCount: number;
+  id: string;
 }
 
-function ProductCard({ name, price, image, ratingCount }: ProductCardProps) {
+function ProductCard({
+  name,
+  price,
+  image,
+  ratingCount,
+  id,
+}: ProductCardProps) {
   return (
-    <div>
-      <img src={image} alt={name} className="rounded-lg" />
-      <p className="font-medium my-2">{name}</p>
+    <Link to={`/products/${id}`}>
+      <img
+        src={image}
+        alt={name}
+        className="rounded-lg h-60 object-cover border-2 border-gray-300 w-full"
+      />
+      <p className="font-medium my-2">
+        {name.length > 20 ? name.slice(0, 20) + "..." : name}
+      </p>
       <RatingCoverter count={ratingCount} />
       <p className="text-xl font-bold">${price}</p>
-    </div>
+    </Link>
   );
 }
 

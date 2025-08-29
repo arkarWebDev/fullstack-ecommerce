@@ -2,6 +2,11 @@ import { Router } from "express";
 import {
   createProduct,
   deleteProduct,
+  getFeaturedProducts,
+  getNewArrivalsProducts,
+  getProductById,
+  getProductsMeta,
+  getProductsWithFilters,
   updateProduct,
 } from "../controllers/product";
 import { isAdmin, protect } from "../middlewares/authMiddlewar";
@@ -37,5 +42,10 @@ router.delete(
   validateRequest,
   deleteProduct
 );
+router.get("/products", getProductsWithFilters);
+router.get("/products/new", getNewArrivalsProducts);
+router.get("/products/featured", getFeaturedProducts);
+router.get("/products/:id", getProductById);
+router.get("/filters/meta", getProductsMeta);
 
 export default router;
