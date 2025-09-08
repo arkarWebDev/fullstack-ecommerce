@@ -124,3 +124,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+.ProseMirror-focused {
+  outline: none !important;
+  box-shadow: none !important;
+}

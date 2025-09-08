@@ -23,6 +23,8 @@ import ResetPasswordForm from "@/components/profile/ResetPasswordForm";
 
 function Profile() {
   const { data: user, refetch, isLoading } = useCurrentUserQuery();
+  console.log(user);
+
   const [avatar, setAvatar] = useState<string | null>(null);
   const [uploadAvatarMutation, { isLoading: isMutating }] =
     useUploadAvatarMutation();

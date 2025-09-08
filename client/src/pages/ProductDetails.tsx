@@ -56,11 +56,9 @@ function ProductDetails() {
       </div>
       <div className="flex flex-col justify-between">
         <h2 className="text-3xl font-bold mb-2">{product.name}</h2>
-        <RatingCoverter count={product.rating} />
+        <RatingCoverter count={product.rating_count} />
         <p className="text-3xl font-extrabold my-2">${product.price}</p>
-        <p className="text-sm font-medium text-gray-400">
-          {product.description}
-        </p>
+        <div dangerouslySetInnerHTML={{ __html: product.description }} />
         <hr className="mt-4 text-gray-300" />
         <h2 className="text-xl font-bold my-2">Colors</h2>
         <div className="flex items-center gap-2">

@@ -10,7 +10,7 @@ export interface Product {
   category: string;
   sizes: string[];
   colors: string[];
-  rating: number;
+  rating_count: number;
   images: ProductImage[];
 }
 

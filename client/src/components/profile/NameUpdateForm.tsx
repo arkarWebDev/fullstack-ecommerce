@@ -73,7 +73,7 @@ function NameUpdateForm({ name }: NameUpdateFormProps) {
               name="name"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Profile name</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>

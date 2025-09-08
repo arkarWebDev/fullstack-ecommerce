@@ -12,7 +12,7 @@ function ProductList({ products }: ProductListProps) {
         <ProductCard
           name={product.name}
           image={product.images[0].url}
-          ratingCount={product.rating}
+          ratingCount={product.rating_count}
           price={product.price}
           key={product._id}
           id={product._id}
