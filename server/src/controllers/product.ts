@@ -178,16 +178,34 @@ export const deleteProduct = asyncHandler(
       throw new Error("No product found with is id.");
     }
 
-    await existingProduct.deleteOne();
-    res.status(404).json({ message: "Product destory!" });
+    const imagesToDeleteWihPublicAltOnly = existingProduct.images.map(
+      (img) => img.public_alt
+    );
+
+    try {
+      await existingProduct.deleteOne();
+
+      if (imagesToDeleteWihPublicAltOnly.length > 0) {
+        Promise.all(
+          imagesToDeleteWihPublicAltOnly.map(async (alt) => {
+            try {
+              await deleteImage(alt);
+            } catch (error) {
+              console.log("Failed to delete image" + alt, error);
+            }
+          })
+        );
+      }
+      res.status(200).json({ message: "Product destory!" });
+    } catch (error) {
+      throw new Error("Failed to delete product");
+    }
   }
 );
 
 // @route GET | api/products
 // @desc Get all products with filters.
 // @access Public
-
-// /api/products?keyword=shirt&minPrice=100&maxPrice=1000
 export const getProductsWithFilters = asyncHandler(async (req, res) => {
   const { keyword, category, minPrice, maxPrice, size, color, sortBy } =
     req.query;

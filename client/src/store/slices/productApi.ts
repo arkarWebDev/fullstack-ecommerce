@@ -1,17 +1,19 @@
 import type { Product, ProductMeta } from "@/types/product";
 import { apiSlice } from "./api";
-import type { ProductFormInputs } from "@/schema/product";
 
 export const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getNewArrivals: builder.query({
       query: () => "/products/new",
+      providesTags: ["Product"],
     }),
     getFeatured: builder.query({
       query: () => "/products/featured",
+      providesTags: ["Product"],
     }),
     getProductDetail: builder.query<Product, string>({
       query: (id: string) => `/products/${id}`,
+      providesTags: ["Product"],
     }),
     getProducts: builder.query({
       query: ({
@@ -41,9 +43,11 @@ export const productApiSlice = apiSlice.injectEndpoints({
 
         return `/products?${params.toString()}`;
       },
+      providesTags: ["Product"],
     }),
     getProductsMeta: builder.query<ProductMeta, string>({
       query: () => "filters/meta",
+      providesTags: ["Product"],
     }),
     createProduct: builder.mutation<Product, FormData>({
       query: (data) => ({
@@ -64,6 +68,13 @@ export const productApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Product"],
     }),
+    deleteProduct: builder.mutation<string, string>({
+      query: (data) => ({
+        url: `/products/${data}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Product"],
+    }),
   }),
 });
 
@@ -75,4 +86,5 @@ export const {
   useGetProductsMetaQuery,
   useCreateProductMutation,
   useUpdateProductMutation,
+  useDeleteProductMutation,
 } = productApiSlice;

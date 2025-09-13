@@ -34,7 +34,7 @@ function ProductCreate() {
 
       await createProduct(formData).unwrap();
       toast.success("Product created successfully");
-      navigate("/admin/products");
+      navigate("/admin/manage-products");
     } catch (error) {
       console.log(error);
       toast.error("Failed to create product");

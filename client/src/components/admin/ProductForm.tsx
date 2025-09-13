@@ -237,8 +237,11 @@ function ProductForm({
           disabled={isLoading || isUpdating}
           className="w-full"
         >
-          {initialData && isUpdating ? "Saving..." : "Update Product"}
-          {!initialData && isLoading ? "Saving ..." : "Create Product"}
+          {isUpdating || isLoading
+            ? "Saving ..."
+            : initialData
+            ? "Update Product"
+            : "Create Product"}
         </Button>
       </form>
     </Form>

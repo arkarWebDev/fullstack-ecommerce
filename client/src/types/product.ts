@@ -11,7 +11,9 @@ export interface Product {
   sizes: string[];
   colors: string[];
   rating_count: number;
+  instock_count: number;
   images: ProductImage[];
+  createdAt: string | Date;
 }
 
 export interface ProductMeta {

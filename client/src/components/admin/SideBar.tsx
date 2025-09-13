@@ -1,18 +1,26 @@
-import { PackagePlus } from "lucide-react";
+import { Package } from "lucide-react";
+import type React from "react";
 import { Link } from "react-router";
 
-const pages = [
+interface Page {
+  name: string;
+  path: string;
+  icon: React.ReactNode;
+}
+
+const pages: Page[] = [
   {
-    name: "Create Product",
-    path: "/admin/create-product",
-    icon: <PackagePlus className="w-6 h-6" />,
+    name: "Product management",
+    path: "/admin/manage-products",
+    icon: <Package className="w-6 h-6" />,
   },
 ];
+
 function SideBar() {
   return (
     <div>
       {pages.map((page, index) => (
-        <div key={index} className="flex gap-1">
+        <div key={index} className="flex gap-1 space-y-4">
           {page.icon}
           <Link to={page.path} className="font-medium">
             {page.name}
