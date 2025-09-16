@@ -14,6 +14,8 @@ export interface Product {
   instock_count: number;
   images: ProductImage[];
   createdAt: string | Date;
+  is_new_arrival: boolean;
+  is_feature: boolean;
 }
 
 export interface ProductMeta {

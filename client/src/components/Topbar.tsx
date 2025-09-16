@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import SearchBox from "../common/SearchBox";
 import { LogIn, ShoppingCart, User } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,17 +17,29 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { clearUserInfo } from "@/store/slices/auth";
-import { useLogoutMutation } from "@/store/slices/userApi";
+import { useCurrentUserQuery, useLogoutMutation } from "@/store/slices/userApi";
+import { useEffect } from "react";
+import { apiSlice } from "@/store/slices/api";
 
 function Topbar({ toggleCart }: TopbarProps) {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const dispatch = useDispatch();
   const [logoutMutation, { isLoading }] = useLogoutMutation();
+  const { isError, data: currentUser } = useCurrentUserQuery();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isError) {
+      dispatch(clearUserInfo());
+      navigate("/");
+    }
+  }, [isError]);
 
   const logoutHandler = async () => {
     try {
       await logoutMutation({});
       dispatch(clearUserInfo());
+      dispatch(apiSlice.util.resetApiState());
     } catch (error) {
       console.log(error);
     }
@@ -65,6 +77,14 @@ function Topbar({ toggleCart }: TopbarProps) {
           ) : (
             <Link to={"/login"}>
               <LogIn />
+            </Link>
+          )}
+          {currentUser?.role === "admin" && (
+            <Link
+              to={"/admin/dashboard"}
+              className="bg-yellow-500 p-2 text-black font-medium text-sm rounded-md"
+            >
+              Go to dashboard
             </Link>
           )}
         </div>
