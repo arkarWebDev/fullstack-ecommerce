@@ -23,6 +23,9 @@ import { apiSlice } from "@/store/slices/api";
 
 function Topbar({ toggleCart }: TopbarProps) {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+  const productInCart = useSelector(
+    (state: RootState) => state.cart.items.length
+  );
   const dispatch = useDispatch();
   const [logoutMutation, { isLoading }] = useLogoutMutation();
   const { isError, data: currentUser } = useCurrentUserQuery();
@@ -53,7 +56,12 @@ function Topbar({ toggleCart }: TopbarProps) {
         </Link>
         <SearchBox />
         <div className="flex items-center gap-4 cursor-pointer">
-          <ShoppingCart onClick={toggleCart} />
+          <div className="relative">
+            <ShoppingCart onClick={toggleCart} />
+            <span className="text-xs bg-red-500 rounded-full  w-4 h-4 absolute text-center -top-2 -right-3">
+              {productInCart}
+            </span>
+          </div>
           {userInfo ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="cursor-pointer">

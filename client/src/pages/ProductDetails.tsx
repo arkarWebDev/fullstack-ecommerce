@@ -4,6 +4,9 @@ import RatingCoverter from "../common/RatingCoverter";
 import { Minus, Plus } from "lucide-react";
 import { useGetProductDetailQuery } from "@/store/slices/productApi";
 import type { ProductImage } from "@/types/product";
+import { addToCart } from "@/store/slices/cart";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 
 function ProductDetails() {
   const [selectedImage, setSelectedImage] = useState<string>();
@@ -11,6 +14,7 @@ function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState<string>();
   const [quantity, setQuantity] = useState<number>(1);
   const { id } = useParams();
+  const dispatch = useDispatch();
 
   const { data: product, isLoading } = useGetProductDetailQuery(id as string);
 
@@ -25,6 +29,21 @@ function ProductDetails() {
 
   if (isLoading) return <p>Loading ...</p>;
   if (!product) return <p>Product not found.</p>;
+
+  const addToCartHandler = () => {
+    toast.success("Product is added to cart.");
+    dispatch(
+      addToCart({
+        productId: product._id,
+        name: product.name,
+        image: selectedImage,
+        color: selectedColor,
+        size: selectedSize,
+        price: product.price,
+        quantity,
+      })
+    );
+  };
 
   return (
     <section className="grid grid-cols-2 gap-8">
@@ -113,7 +132,10 @@ function ProductDetails() {
               <Minus className="w-4 h-4" />
             </button>
           </div>
-          <button className="w-full text-center py-2 bg-black text-sm font-medium text-white rounded-full">
+          <button
+            className="w-full text-center py-2 bg-black text-sm font-medium text-white rounded-full cursor-pointer"
+            onClick={addToCartHandler}
+          >
             Add to cart
           </button>
         </div>
