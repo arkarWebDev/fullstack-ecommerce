@@ -113,6 +113,4 @@ app.listen(PORT, () => {
 
 //stripe listen --forward-to localhost:4000/stripe/webhook
 
-// whsec_0cbff1b690f013ccadfd31433ac30888328ce8e6b5f3bf3443dd3365df729fa1
-
 //stripe trigger checkout.session.completed
