@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import { Button } from "../ui/button";
 import { clearCart } from "@/store/slices/cart";
+import { useCreateCheckOutSessionMutation } from "@/store/slices/orderApi";
 
 interface CartDrawerProps {
   isCartOpen: boolean;
@@ -16,6 +17,24 @@ function CartDrawer({ isCartOpen, toggleCart }: CartDrawerProps) {
   const productInCart = useSelector(
     (state: RootState) => state.cart.items.length
   );
+  const [createCheckoutSession, { isLoading }] =
+    useCreateCheckOutSessionMutation();
+  const bill = products.reduce(
+    (sum, item) => sum + Number(item.price) * item.quantity,
+    0
+  );
+
+  const checkoutHandler = async () => {
+    try {
+      const { url } = await createCheckoutSession({
+        items: products,
+        bill,
+      }).unwrap();
+      window.location.href = url;
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div
       className={`bg-white fixed top-0 right-0 w-1/4 transform transition-transform duration-300 z-50 p-4 h-screen overflow-y-scroll border-l-2 border-l-gray-200 ${
@@ -62,7 +81,9 @@ function CartDrawer({ isCartOpen, toggleCart }: CartDrawerProps) {
       {products.length > 0 && (
         <button
           className="bg-black w-full
-       py-4 text-white rounded-md"
+       py-4 text-white rounded-md cursor-pointer"
+          onClick={checkoutHandler}
+          disabled={isLoading}
         >
           Go to Checkout
         </button>

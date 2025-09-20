@@ -32,11 +32,11 @@ function Topbar({ toggleCart }: TopbarProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isError) {
+    if (isError || !userInfo) {
       dispatch(clearUserInfo());
       navigate("/");
     }
-  }, [isError]);
+  }, [isError, userInfo]);
 
   const logoutHandler = async () => {
     try {
