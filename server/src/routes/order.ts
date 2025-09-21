@@ -1,12 +1,17 @@
 import { Router } from "express";
-import { protect } from "../middlewares/authMiddlewar";
+import { isAdmin, protect } from "../middlewares/authMiddlewar";
 import {
+  changeOrderStatus,
   confirmSessionId,
   createOrderAndCheckOutSession,
+  getAllOrders,
+  getOrderByUser,
 } from "../controllers/order";
 import {
   confirmSessionIdValidator,
   orderCreateValidator,
+  orderIdValidator,
+  orderStatusValidator,
 } from "../validators/order";
 import { validateRequest } from "../middlewares/validateRequest";
 
@@ -25,6 +30,17 @@ router.get(
   confirmSessionIdValidator,
   validateRequest,
   confirmSessionId
+);
+router.get("/orders", protect, getOrderByUser);
+router.get("/orders/all", protect, isAdmin, getAllOrders);
+router.patch(
+  "/orders/:orderId",
+  orderIdValidator,
+  orderStatusValidator,
+  validateRequest,
+  protect,
+  isAdmin,
+  changeOrderStatus
 );
 
 export default router;

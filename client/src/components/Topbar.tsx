@@ -70,8 +70,11 @@ function Topbar({ toggleCart }: TopbarProps) {
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer">
+                <DropdownMenuItem className="cursor-pointer" asChild>
                   <Link to={"/profile"}>Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer" asChild>
+                  <Link to={"/orders"}>Orders</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   disabled={isLoading}

@@ -79,3 +79,45 @@ export const confirmSessionId = asyncHandler(
     res.status(200).json(order);
   }
 );
+
+// @route GET | api/orders
+// @desc Get order by current user id
+// @access Private/User
+export const getOrderByUser = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
+    const userId = req.user?._id;
+    const orders = await Order.find({ userId }).sort({ createdAt: -1 });
+    res.status(200).json(orders);
+  }
+);
+
+// @route GET | api/orders/all
+// @desc Get all order
+// @access Private/Admin
+export const getAllOrders = asyncHandler(
+  async (req: Request, res: Response) => {
+    const orders = await Order.find().sort({ createdAt: -1 });
+    res.status(200).json(orders);
+  }
+);
+
+// @route PATCH | api/orders/:orderId
+// @desc Change order status
+// @access Private/Admin
+export const changeOrderStatus = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { orderId } = req.params;
+    const { status } = req.body;
+
+    const updatedOrder = await Order.findByIdAndUpdate(
+      orderId,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      throw new Error("Order not found");
+    }
+    res.status(200).json(updatedOrder);
+  }
+);
