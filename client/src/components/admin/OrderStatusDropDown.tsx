@@ -50,7 +50,7 @@ function OrderStatusDropDown({
         {status.map((item) => (
           <SelectItem value={item.value} key={item.value}>
             <span className="flex items-center gap-1 ">
-              {item.label}{" "}
+              {item.label}
               {selectedStatus === item.value && (
                 <Check className="w-4 h-4 text-green-600" />
               )}

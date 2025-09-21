@@ -1,4 +1,3 @@
-import type { Order } from "@/types/order";
 import {
   Card,
   CardContent,
@@ -6,10 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { FAKE_ORDERS } from "@/lib/fakeOrders";
 import { Badge } from "../ui/badge";
+import { useGetAllOrdersQuery } from "@/store/slices/orderApi";
 
 function OrderTable() {
+  const { data } = useGetAllOrdersQuery(undefined);
+
   return (
     <div className="flex-1">
       <Card>
@@ -21,21 +22,16 @@ function OrderTable() {
           <table className="text-sm w-full">
             <thead>
               <tr className="bg-muted/50">
-                <th className="p-2">Order ID</th>
-                <th className="p-2">Customer</th>
-                <th className="p-2">Date</th>
-                <th className="p-2">Status</th>
-                <th className="p-2">Amount</th>
+                <th className="p-2 text-left">Customer email</th>
+                <th className="p-2 text-left">Status</th>
+                <th className="p-2 text-right">Amount</th>
               </tr>
             </thead>
             <tbody>
-              {FAKE_ORDERS.map((order) => (
-                <tr key={order.id}>
-                  <td className="p-2">{order.id}</td>
+              {data?.map((order) => (
+                <tr key={order._id}>
                   <td className="p-2">{order.customer}</td>
-                  <td className="p-2">
-                    {new Date(order.createdAt).toLocaleTimeString()}
-                  </td>
+
                   <td className="p-2">
                     <Badge
                       variant={
