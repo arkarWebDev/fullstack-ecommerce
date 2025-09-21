@@ -24,11 +24,6 @@ const pages: Page[] = [
     path: "/admin/manage-orders",
     icon: <Edit className="w-6 h-6" />,
   },
-  {
-    name: "User management",
-    path: "/admin/manage-users",
-    icon: <UserCog className="w-6 h-6" />,
-  },
 ];
 
 function SideBar() {
