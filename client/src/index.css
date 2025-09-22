@@ -131,5 +131,5 @@
 }
 
 .product-container ul {
-  @apply list-disc;
+  @apply list-disc ml-4;
 }
