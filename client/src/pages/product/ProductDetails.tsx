@@ -113,13 +113,6 @@ function ProductDetails() {
           <div className="flex items-center gap-2">
             <button
               className="bg-black p-2 text-white rounded-md cursor-pointer"
-              onClick={() => setQuantity((prev) => prev + 1)}
-            >
-              <Plus className="w-4 h-4" />
-            </button>
-            <span className="font-medium">{quantity}</span>
-            <button
-              className="bg-black p-2 text-white rounded-md cursor-pointer"
               onClick={() =>
                 setQuantity((prev) => {
                   if (prev === 1) {
@@ -130,6 +123,13 @@ function ProductDetails() {
               }
             >
               <Minus className="w-4 h-4" />
+            </button>
+            <span className="font-medium">{quantity}</span>
+            <button
+              className="bg-black p-2 text-white rounded-md cursor-pointer"
+              onClick={() => setQuantity((prev) => prev + 1)}
+            >
+              <Plus className="w-4 h-4" />
             </button>
           </div>
           <button

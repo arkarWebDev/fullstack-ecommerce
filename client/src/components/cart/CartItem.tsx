@@ -49,16 +49,16 @@ function CartItem({
         <div className="flex items-center gap-2">
           <button
             className="bg-black p-2 text-white rounded-md"
-            onClick={() => dispatch(increaseQuantity(productKey))}
+            onClick={() => dispatch(decreaseQuantity(productKey))}
           >
-            <Plus className="w-4 h-4" />
+            <Minus className="w-4 h-4" />
           </button>
           <span className="font-medium">{quantity}</span>
           <button
             className="bg-black p-2 text-white rounded-md"
-            onClick={() => dispatch(decreaseQuantity(productKey))}
+            onClick={() => dispatch(increaseQuantity(productKey))}
           >
-            <Minus className="w-4 h-4" />
+            <Plus className="w-4 h-4" />
           </button>
         </div>
       </div>

@@ -143,7 +143,7 @@ function ProductFilter() {
         </div>
 
         <h3 className="text-lg font-bold mb-2 mt-4">Price</h3>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 pr-4">
           <input
             type="number"
             min={0}
