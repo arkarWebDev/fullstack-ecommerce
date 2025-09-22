@@ -1,6 +1,6 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { z } from "zod";
-import { loginSchema } from "../schema/auth";
+import { loginSchema } from "../../schema/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router";
 

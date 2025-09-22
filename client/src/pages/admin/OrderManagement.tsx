@@ -1,8 +1,5 @@
 import Loader from "@/components/Loader";
-import {
-  useGetAllOrdersQuery,
-  useGetOrdersByUserIdQuery,
-} from "@/store/slices/orderApi";
+import { useGetAllOrdersQuery } from "@/store/slices/orderApi";
 
 import {
   Table,

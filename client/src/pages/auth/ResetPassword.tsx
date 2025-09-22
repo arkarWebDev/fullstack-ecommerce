@@ -13,7 +13,7 @@ import {
 
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { z } from "zod";
-import { resetPasswordSchema } from "../schema/auth";
+import { resetPasswordSchema } from "../../schema/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";

@@ -1,6 +1,6 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { z } from "zod";
-import { forgotPasswordSchema } from "../schema/auth";
+import { forgotPasswordSchema } from "../../schema/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router";
 
@@ -14,10 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  useForgotPasswordMutation,
-  useLoginMutation,
-} from "@/store/slices/userApi";
+import { useForgotPasswordMutation } from "@/store/slices/userApi";
 import { toast } from "sonner";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";

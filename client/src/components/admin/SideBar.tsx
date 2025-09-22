@@ -1,6 +1,6 @@
-import { ChartLine, Edit, Package, UserCog } from "lucide-react";
+import { ChartLine, Edit, Package } from "lucide-react";
 import type React from "react";
-import { Link, NavLink } from "react-router";
+import { NavLink } from "react-router";
 
 interface Page {
   name: string;

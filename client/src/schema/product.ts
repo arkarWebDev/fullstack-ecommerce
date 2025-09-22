@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-const IMAGES_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-
 export const productSchema = z.object({
   name: z.string().min(3, "Product name must be at least 3 characters"),
   description: z

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import RatingCoverter from "../common/RatingCoverter";
+import RatingCoverter from "../../common/RatingCoverter";
 import { Minus, Plus } from "lucide-react";
 import { useGetProductDetailQuery } from "@/store/slices/productApi";
 import type { ProductImage } from "@/types/product";
