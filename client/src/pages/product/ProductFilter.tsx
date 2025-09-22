@@ -113,16 +113,19 @@ function ProductFilter() {
       <div className=" col-span-2">
         <h2 className="text-xl font-bold mb-2">Product Filters</h2>
         <h3 className="text-lg font-bold mb-2">Colors</h3>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-2">
           {product_meta?.colors.map((color, index) => (
-            <label key={index}>
+            <label key={index} className="flex items-center">
               <input
                 type="checkbox"
                 className="mr-1"
                 onChange={() => toggleValue("colors", color)}
                 checked={filters.colors.includes(color)}
               />
-              <span>{color}</span>
+              <div
+                className="w-14 h-3 rounded-xs"
+                style={{ backgroundColor: color }}
+              />
             </label>
           ))}
         </div>
@@ -162,13 +165,15 @@ function ProductFilter() {
           />
         </div>
         {hasActiveFilters && (
-          <Button
-            variant={"destructive"}
-            onClick={clearAllFilters}
-            className="w-full mt-2"
-          >
-            Clear all
-          </Button>
+          <div className=" pr-4">
+            <Button
+              variant={"destructive"}
+              onClick={clearAllFilters}
+              className="w-full mt-2"
+            >
+              Clear all
+            </Button>
+          </div>
         )}
       </div>
 
