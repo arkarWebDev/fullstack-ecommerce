@@ -129,3 +129,7 @@
   outline: none !important;
   box-shadow: none !important;
 }
+
+.product-container ul {
+  @apply list-disc;
+}

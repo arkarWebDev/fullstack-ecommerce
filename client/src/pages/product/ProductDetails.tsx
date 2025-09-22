@@ -73,7 +73,7 @@ function ProductDetails() {
         "
         />
       </div>
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between product-container">
         <h2 className="text-3xl font-bold mb-2">{product.name}</h2>
         <RatingCoverter count={product.rating_count} />
         <p className="text-3xl font-extrabold my-2">${product.price}</p>
