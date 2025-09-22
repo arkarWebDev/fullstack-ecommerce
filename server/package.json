@@ -5,7 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec ts-node src/app.ts",
-    "db:seed": "ts-node src/db/seeder.ts"
+    "db:seed": "ts-node src/db/seeder.ts",
+    "build": "tsc",
+    "start": "node dist/app.js"
   },
   "keywords": [],
   "author": "",
