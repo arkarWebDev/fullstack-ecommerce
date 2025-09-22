@@ -62,9 +62,10 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 // @desc Clear token.
 // @access Public
 export const logout = asyncHandler(async (req: Request, res: Response) => {
-  res.cookie("token", "", {
+  res.clearCookie("token", {
     httpOnly: true,
-    expires: new Date(0),
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
   res.status(200).json({ message: "logout!!" });
